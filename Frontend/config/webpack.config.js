@@ -20,7 +20,7 @@ var options = {
   },
   output: {
     path: __dirname + '/Assets/',
-    publicPath: '/assets/',
+    publicPath: '/Assets/',
     filename: './js/[name].js'
   },
   stats: {
@@ -58,7 +58,12 @@ var options = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendors', 'js/vendors.js')
+    new webpack.optimize.CommonsChunkPlugin('vendors', 'js/vendors.js'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
+    })
   ]
 }
 
