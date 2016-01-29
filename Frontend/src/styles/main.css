@@ -1,0 +1,6 @@
+@import "vars";
+@import "milligram";
+
+body {
+  background: $bg-color;
+}
