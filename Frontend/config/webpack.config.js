@@ -5,10 +5,16 @@ var precss = require('precss')
 var cssnano = require('cssnano')
 var atImport = require('postcss-import')
 var partialImport = require('postcss-partial-import')
+var path = require('path')
+var vendor_dir = path.resolve(__dirname, '../vendors');
 
 var options = {
   cache: true,
   debug: true,
+  addVendor: function (name, path) {
+   this.resolve.alias[name] = path;
+   this.module.noParse.push(new RegExp('^' + name + '$'));
+  },
   entry: {
     app: [
       'webpack-dev-server/client?http://127.0.0.1:8080',
@@ -16,8 +22,9 @@ var options = {
       './Frontend/src/js/main.js',
       './Frontend/src/styles/main.css'
     ],
-    vendors: ['react', 'react-dom']
+    vendors: ['react', 'react-dom', 'jquery', 'modernizr']
   },
+  resolve: { alias: {} },
   output: {
     path: __dirname + '/Assets/',
     publicPath: '/Assets/',
@@ -37,7 +44,8 @@ var options = {
       },
       { test: require.resolve('react'), loader: 'expose?React' },
       { test: require.resolve('react-dom'), loader: 'expose?ReactDOM' }
-    ]
+    ],
+    noParse: []
   },
   postcss: [
     atImport,
@@ -66,5 +74,8 @@ var options = {
     })
   ]
 }
+
+// options.addVendor('react', vendor_dir + '/jquery.js')
+// options.addVendor('react', vendor_dir + '/modernizr.js')
 
 module.exports = options
