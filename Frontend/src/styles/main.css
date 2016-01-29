@@ -3,4 +3,5 @@
 
 body {
   background: $bg-color;
+  text-align: center;
 }

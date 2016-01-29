@@ -6,7 +6,7 @@ var App = React.createClass({
 
   render: function() {
     return (
-      <h1>React!</h1>
+      <h1>React Test!</h1>
     )
   }
 

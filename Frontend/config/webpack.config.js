@@ -30,13 +30,18 @@ var options = {
   module: {
     loaders: [
       { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader' },
-      { test: /\.jsx$/, loader: 'react-hot!jsx?harmony', exclude: /node_modules/ },
+      {
+        test: /\.jsx$/,
+        loaders: ['react-hot', 'jsx?harmony', 'babel'],
+        exclude: /node_modules/
+      },
       { test: require.resolve('react'), loader: 'expose?React' },
       { test: require.resolve('react-dom'), loader: 'expose?ReactDOM' }
     ]
   },
   postcss: [
     atImport,
+    precss,
     cssnano({
       sourcemap: true,
       autoprefixer: {
@@ -48,8 +53,7 @@ var options = {
       discardComments: {
         removeAll: true
       }
-    }),
-    precss
+    })
   ],
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
