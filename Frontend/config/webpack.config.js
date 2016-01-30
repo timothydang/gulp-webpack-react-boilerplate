@@ -22,7 +22,7 @@ var options = {
       './Frontend/src/js/main.js',
       './Frontend/src/styles/main.css'
     ],
-    vendors: ['react', 'react-dom', 'jquery', 'modernizr']
+    vendors: ['react', 'react-dom', 'jquery', 'modernizr', 'jquery.validate', 'respond']
   },
   resolve: { alias: {} },
   output: {
@@ -75,7 +75,9 @@ var options = {
   ]
 }
 
-// options.addVendor('react', vendor_dir + '/jquery.js')
-// options.addVendor('react', vendor_dir + '/modernizr.js')
+options.addVendor('jquery', vendor_dir + '/jquery.js')
+options.addVendor('modernizr', vendor_dir + '/modernizr.js')
+options.addVendor('jquery.validate', vendor_dir + '/jquery.validate.js')
+options.addVendor('respond', vendor_dir + '/respond.js')
 
 module.exports = options

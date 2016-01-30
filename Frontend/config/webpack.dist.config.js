@@ -6,15 +6,21 @@ var cssnano = require('cssnano')
 var atImport = require('postcss-import')
 var path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var vendor_dir = path.resolve(__dirname, '../vendors');
 
 var options = {
   debug: false,
+  addVendor: function (name, path) {
+   this.resolve.alias[name] = path;
+   this.module.noParse.push(new RegExp('^' + name + '$'));
+  },
   entry: {
     app: [
       './Frontend/src/js/main.js'
     ],
-    vendors: ['react', 'react-dom']
+    vendors: ['react', 'react-dom', 'jquery', 'modernizr', 'jquery.validate', 'respond']
   },
+  resolve: { alias: {} },
   output: {
     path: path.join(__dirname, '../.tmp/Assets/'),
     filename: './js/[name].js'
@@ -29,7 +35,8 @@ var options = {
       },
       { test: require.resolve('react'), loader: 'expose?React' },
       { test: require.resolve('react-dom'), loader: 'expose?ReactDOM' }
-    ]
+    ],
+    noParse: []
   },
   postcss: [
     atImport,
@@ -56,6 +63,7 @@ var options = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendors', 'js/vendors.js'),
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
@@ -63,5 +71,10 @@ var options = {
     })
   ]
 }
+
+options.addVendor('jquery', vendor_dir + '/jquery.js')
+options.addVendor('modernizr', vendor_dir + '/modernizr.js')
+options.addVendor('jquery.validate', vendor_dir + '/jquery.validate.js')
+options.addVendor('respond', vendor_dir + '/respond.js')
 
 module.exports = options
