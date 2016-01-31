@@ -1,0 +1,156 @@
+doctype html
+html(lang="en")
+    head
+        block title
+           title Trivett
+
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+
+        block append meta
+            <!--[if lt IE 10]>
+            meta(http-equiv="X-UA-Compatible" content="IE=9")
+            <![endif]-->
+            meta(charset="UTF-8")
+            meta(name="description" content="")
+            meta(name="author" content="Trivett Bespoke")
+            <!--[if lt IE 9]>
+            <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            link(rel="stylesheet" type="text/css" href="../Assets/css/ie8.css")
+            <![endif]-->
+            script(type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-55134b71623accd1" async="async")
+
+        link(rel="shortcut icon" href="favicon.ico")
+        link(rel="stylesheet" type="text/css" href="../Assets/css/site.css")
+
+        //- Style
+        //- ***************************
+        block append headerStyle
+    body
+
+        .wrapper#top
+            //- Legacy browser notification
+            //- ***************************
+            .legacy__notification
+
+                p
+                    i.fa.fa-exclamation-triangle
+                    | Your browser is out of date! For a better experience,&nbsp;
+                    a(href="http://browsehappy.com/", title="Update your web browser", target="_blank") please update your web browser.
+
+            //- Header
+            //- ***************************
+            header.header
+                .header__container
+                    .header__layout
+                        .header__logo
+                            h1: a(href="/", title="Trivett Bespoke")
+                                img(src="../assets/images/logo__main.png" alt="Trivett Bespoke").img-responsive
+                        nav.nav
+                            ul.nav__list
+                                li.nav__link: a(href="#", title="Explore") Explore
+                                li.nav__link: a(href="#", title="Explore") Get inspired
+                                li.nav__link: a(href="#", title="Menu").menu__toggle#menuToggle
+                                    .menu__text Menu
+                                    .menu__icon
+                                        span icon
+
+            //- Import nav menu
+            include _nav-menu.jade
+
+            main.main
+                //- Main
+                //- ***************************
+                block mainContent
+
+                //- Secondary content
+                //- ========================
+                //- Remove if not in use.
+                block secondaryContent
+
+            //- Footer
+            //- ***************************
+            footer.footer
+                .footer__container
+                    .footer__layout
+                        .row
+                            .location.col-xs-12.col-sm-6.col-md-3
+                                .location__container
+                                    .location__header
+                                        h4.h5 Aston Martin - Sydney
+                                    .location__address
+                                        | 75-85 O'Riordan Street,<br/>
+                                        | Alexandria 2015 <br/>
+                                        | New South Wales, Australia
+                                    .location__contact
+                                        | Phone: 02 8338 2150
+                                    .location__socialmedia
+                                        a(href="#", target="_blank", title="Visit us at Facebook").socialmedia__link
+                                            i.fa.fa-facebook
+                                        a(href="#", target="_blank", title="Visit us at Twitter").socialmedia__link
+                                            i.fa.fa-twitter
+                                        a(href="#", target="_blank", title="Visit us at Instagram").socialmedia__link
+                                            i.fa.fa-instagram
+                            .location.col-xs-12.col-sm-6.col-md-3
+                                .location__container
+                                    .location__header
+                                        h4.h5 Bentley - Sydney
+                                    .location__address
+                                        | 75-85 O'Riordan Street,<br/>
+                                        | Alexandria 2015<br/>
+                                        | New South Wales, Australia
+                                    .location__contact
+                                        | Phone: 02 8338 2151
+                                    .location__socialmedia
+                                        a(href="#", target="_blank", title="Visit us at Facebook").socialmedia__link
+                                            i.fa.fa-facebook
+                                        a(href="#", target="_blank", title="Visit us at Twitter").socialmedia__link
+                                            i.fa.fa-twitter
+                                        a(href="#", target="_blank", title="Visit us at Instagram").socialmedia__link
+                                            i.fa.fa-instagram
+                            .location.col-xs-12.col-sm-6.col-md-3
+                                .location__container
+                                    .location__header
+                                        h4.h5 McLaren - Sydney
+                                    .location__address
+                                        | 75-85 O'Riordan Street,<br/>
+                                        | Alexandria 2015<br/>
+                                        | New South Wales, Australia
+                                    .location__contact
+                                        | Phone: 02 8338 2180
+                                    .location__socialmedia
+                                        a(href="#", target="_blank", title="Visit us at Facebook").socialmedia__link
+                                            i.fa.fa-facebook
+                                        a(href="#", target="_blank", title="Visit us at Twitter").socialmedia__link
+                                            i.fa.fa-twitter
+                                        a(href="#", target="_blank", title="Visit us at Instagram").socialmedia__link
+                                            i.fa.fa-instagram
+                            .location.col-xs-12.col-sm-6.col-md-3
+                                .location__container
+                                    .location__header
+                                        h4.h5 McLaren - Sydney
+                                    .location__address
+                                        | 75-85 O'Riordan Street,<br/>
+                                        | Alexandria 2015<br/>
+                                        | New South Wales, Australia
+                                    .location__contact
+                                        | Phone: 02 8338 2158
+                                    .location__socialmedia
+                                        a(href="#", target="_blank", title="Visit us at Facebook").socialmedia__link
+                                            i.fa.fa-facebook
+                                        a(href="#", target="_blank", title="Visit us at Twitter").socialmedia__link
+                                            i.fa.fa-twitter
+                                        a(href="#", target="_blank", title="Visit us at Instagram").socialmedia__link
+                                            i.fa.fa-instagram
+
+                        small &copy; 2016 Trivett Classic Pty Ltd.&nbsp;All rights reserved
+            a(href="#top")#toTop.page__btn-scroll.js--scroll: i.fa.fa-chevron-up
+            .bg__overlay
+
+        //- Scripts
+        //- ***************************
+        block append footerScript
+            script(type="text/javascript", src="../Scripts/jquery-1.10.2.min.js")
+            script(type="text/javascript", src="../Assets/vendor/magnificpopup/jquery.magnific-popup.min.js")
+            script(type="text/javascript", src="../Assets/vendor/owlcarousel/owl.carousel.min.js")
+            script(type="text/javascript", src="../Assets/js/global.js")

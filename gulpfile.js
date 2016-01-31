@@ -10,6 +10,7 @@ var webpack = require('webpack')
 var WebpackServer = require('webpack-dev-server')
 var merge2 = require('merge2')
 var pngquant = require('imagemin-pngquant')
+var jade = require('gulp-jade')
 
 var plugins  = require("gulp-load-plugins")({
                     pattern: ['gulp-*', 'gulp.*'],
@@ -28,12 +29,24 @@ gulp.task('clean', function(done) {
   del(['Assets/*', '.tmp'], done)
 })
 
-gulp.task('assets', function() {
-  return gulp.src('Frontend/src/index.html')
-    .pipe(usemin({
-      js: [rev(),uglify()]
+// gulp.task('assets', function() {
+//   return gulp.src('Frontend/src/index.html')
+//     .pipe(usemin({
+//       js: [rev(),uglify()]
+//     }))
+//     .pipe(gulp.dest('Assets'))
+// })
+
+gulp.task('jade', function () {
+  return gulp.src('./Frontend/views/**/*.jade')
+    .pipe(jade({
+      pretty: true
     }))
-    .pipe(gulp.dest('Assets'))
+    .pipe(gulp.dest('./Frontend/'))
+})
+
+gulp.task('watch-files', function() {
+  gulp.watch('./Frontend/views/**/*.jade', ['jade'])
 })
 
 gulp.task('watch', ['clean'], function() {
@@ -84,4 +97,4 @@ gulp.task('build', ['set-prod-node-env', 'clean', 'webpack-production'], functio
   done()
 })
 
-gulp.task('default', ['set-dev-node-env', 'watch'])
+gulp.task('default', ['set-dev-node-env', 'watch-files', 'watch'])

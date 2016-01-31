@@ -1,0 +1,167 @@
+extends partials/_layout.jade
+
+block title
+    title Style Guide - Trivett
+
+append headerStyle
+    link(rel="stylesheet" type="text/css" href="./assets/css/styleguide.css")
+
+block mainContent
+    article.main__container--dark
+        .main__layout
+            section.section__pane
+                h2.underline Fonts
+                p This is Lato, default base 16px
+                p.light This is Lato 300 (light)
+                p.bold This is Lato 700 (bold)
+                p.fnt1 This is Helvetica, fallback #1
+                p.fnt2 This is Arial, fallback #2
+                p.fnt3 This is sans serif, fallback #3
+
+                h2.underline Headers
+                h1 This is a Header 1, 2.25rem (36px)
+                h2 This is a Header 2, 1.75rem (28px)
+                h3 This is a Header 3, 1.5rem (24px)
+                h4 This is a Header 4, 1.125rem (18px)
+                h5 This is a Header 5, 1rem (16px)
+                h6 This is a Header 6, 0.875rem (14px)
+
+                h2.underline Brand colours
+                ul.list__brand
+                    li.brand-primary Brand primary
+                    li.brand-secondary Brand secondary
+                    li.brand-tertiary Brand tertiary
+                    li.brand-success Brand success
+                    li.brand-warning Brand warning
+                    li.brand-info Brand info
+                    li.brand-danger Brand danger
+                    li.brand-white White
+                    li.brand-black Black
+
+
+                h2.underline Typography
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non elit nec tellus facilisis tempor. Nunc et ipsum porttitor dui dignissim dapibus. Donec luctus urna fermentum turpis malesuada dictum. Nam mollis imperdiet nisi nec vestibulum. Vivamus lacinia lacus purus, non volutpat turpis semper non. Curabitur vitae leo neque. Etiam a vestibulum velit. Suspendisse pulvinar placerat arcu ut dictum.
+
+                p
+                    a(href="#") This is a link
+
+                p This is a &nbsp;
+                    small small
+
+                p This is a &nbsp;
+                    strong strong
+
+                p This is a &nbsp;
+                    em emphasis
+
+                p this is a &lt;hr&gt;, same as border-color
+
+                hr
+
+                p this is a &lt;hr&gt;, with border-color-primary
+
+                hr.hr-primary
+
+                h2.underline Lists and definitions
+                ul
+                    li Unordered list 1
+                    li Unordered list 2
+                    li Unordered list 3
+                    li Unordered list 4
+
+                ol
+                    li Ordered list 1
+                    li Ordered list 2
+                    li Ordered list 3
+                    li Ordered list 4
+
+                dl
+                    dt DT Title
+                    dd DD Text
+                    dt DT Title
+                    dd DD Text
+
+
+                h2.underline Icons
+
+                p Icons are using font-awesome fonts
+
+                ul.list-inline
+                    li
+                        i.fa.fa-facebook Facebook
+                    li
+                        i.fa.fa-twitter Twitter
+                    li
+                        i.fa.fa-instagram Instagram
+
+                h2.underline Alerts
+
+                .alert.alert-success(role="alert") This is a success alert
+                .alert.alert-warning(role="alert") This is a warning alert
+                .alert.alert-info(role="alert") This is a info alert
+                .alert.alert-danger(role="alert") This is a danger alert
+
+                h2.underline Forms
+                form
+                    .input__container
+                        label(for="textfield").control-label Textfield
+                        input.form-control#textfield(type="text", name="textfield")
+
+                    .input__container.is--error
+                        label(for="textfield2") Textfield with error
+                        input.form-control#textfield2(type="text", name="textfield2")
+                        span.input__feedback Error feedback
+
+                    .input__container.is--disabled
+                        label(for="textfield3").control-label Textfield disabled
+                        input.form-control#textfield3(type="text", name="textfield3" disabled="disabled")
+
+
+                    .input__container
+                        label(for="password") Password
+                        input.form-control#password(type="password", name="password")
+                    .input__container
+                        label(for="select") Select
+                        select.form-control#select
+                            option(value="-1") Select a value
+                            option(value="1") Value 1
+                            option(value="2") Value 2
+                            option(value="3") Value 3
+                    br
+                    .input__container
+                        .checkradio__container
+                            input#checkbox(type="checkbox", name="checkbox")
+                            label(for="checkbox") Checkbox
+                        .checkradio__container
+                            input#checkbox2(type="checkbox", name="checkbox2", disabled="disabled")
+                            label(for="checkbox2") Checkbox disabled
+                    br
+                    .input__container
+                        .checkradio__container
+                            input#radio(type="radio", name="radio")
+                            label(for="radio") Radio 1
+                        .checkradio__container
+                            input#radio2(type="radio", name="radio")
+                            label(for="radio2") Radio 2
+                        .checkradio__container
+                            input#radio3(type="radio", name="radio" disabled="disabled")
+                            label(for="radio3") Radio disabled
+
+
+                    h2.underline Buttons
+                    input.btn.btn-default(type="submit", value="Submit button default")
+                    button.btn.btn-primary Button primary
+                    button.btn.btn-secondary Button secondary
+                    button.btn.btn-success Button success
+                    button.btn.btn-warning Button warning
+                    button.btn.btn-info Button info
+                    button.btn.btn-danger Button danger
+                    a(href="#",role="button").btn.btn-link Link button
+                    br
+                    br
+                    button.btn.btn-primary Button default
+                    button.btn.btn-primary.btn-xs Button extra small
+                    button.btn.btn-primary.btn-sm Button small
+                    button.btn.btn-primary.btn-lg Button large
+
+append footerScript
