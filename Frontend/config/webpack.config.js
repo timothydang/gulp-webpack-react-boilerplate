@@ -27,7 +27,7 @@ var options = {
   },
   resolve: { alias: {} },
   output: {
-    path: __dirname + '/Assets/',
+    path: path.join(__dirname, '../.tmp/Assets/'),
     publicPath: '/Assets/',
     filename: './js/[name].js'
   },

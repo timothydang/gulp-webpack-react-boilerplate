@@ -29,20 +29,12 @@ gulp.task('clean', function(done) {
   del(['Assets/*', '.tmp'], done)
 })
 
-// gulp.task('assets', function() {
-//   return gulp.src('Frontend/src/index.html')
-//     .pipe(usemin({
-//       js: [rev(),uglify()]
-//     }))
-//     .pipe(gulp.dest('Assets'))
-// })
-
 gulp.task('jade', function () {
   return gulp.src('./Frontend/views/**/*.jade')
     .pipe(jade({
       pretty: true
     }))
-    .pipe(gulp.dest('./Frontend/'))
+    .pipe(gulp.dest('./Frontend/.tmp/'))
 })
 
 gulp.task('watch-files', function() {
@@ -54,7 +46,7 @@ gulp.task('webpack-local-dev', ['clean'], function() {
 
   var server = new WebpackServer(compiler, {
     hot: true,
-    contentBase: __dirname + '/Frontend/',
+    contentBase: __dirname + '/Frontend/.tmp/',
     publicPath: '/Assets/'
   })
 
@@ -62,8 +54,13 @@ gulp.task('webpack-local-dev', ['clean'], function() {
 })
 
 gulp.task('copy', function(done) {
+  var assetPath = './Assets/'
+  if(process.env.NODE_ENV === 'development') {
+    assetPath = './Frontend/.tmp/Assets/'
+  }
+
   var font = gulp.src('./Frontend/assets/fonts/*.{ttf,woff,woff2,eof,eot,svg}')
-              .pipe(gulp.dest('./Assets/fonts/'))
+              .pipe(gulp.dest(assetPath + 'fonts/'))
 
   var images = gulp.src('./Frontend/assets/images/**/*.{jpg,jpeg,png,gif,svg}')
                 .pipe(plugins.imagemin({
@@ -71,16 +68,16 @@ gulp.task('copy', function(done) {
                   svgoPlugins: [{removeViewBox: false}],
                   use: [pngquant()]
                 }))
-                .pipe(gulp.dest('./Assets/images/'))
+                .pipe(gulp.dest(assetPath + 'images/'))
 
   var staticAssets = gulp.src('./Frontend/assets/static/**/*.*')
-                      .pipe(gulp.dest('./Assets/static/'))
+                      .pipe(gulp.dest(assetPath + 'static/'))
 
   var jsFiles = gulp.src('./Frontend/.tmp/assets/js/**/*.*')
-                  .pipe(gulp.dest('./Assets/js/'))
+                  .pipe(gulp.dest(assetPath + 'js/'))
 
   var cssFiles = gulp.src('./Frontend/.tmp/assets/css/**/*.*')
-                  .pipe(gulp.dest('./Assets/css/'))
+                  .pipe(gulp.dest(assetPath + 'css/'))
 
   return merge2(font, images, staticAssets, jsFiles, cssFiles)
 })
@@ -97,4 +94,4 @@ gulp.task('build', ['set-prod-node-env', 'clean', 'webpack-production'], functio
   done()
 })
 
-gulp.task('default', ['set-dev-node-env', 'jade', 'webpack-local-dev', 'watch-files'])
+gulp.task('default', ['set-dev-node-env', 'jade', 'webpack-local-dev', 'copy', 'watch-files'])
