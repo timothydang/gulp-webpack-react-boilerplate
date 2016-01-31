@@ -10,6 +10,7 @@ var vendor_dir = path.resolve(__dirname, '../vendors');
 
 var options = {
   debug: false,
+  devtool: 'sourcemap',
   addVendor: function (name, path) {
    this.resolve.alias[name] = path;
    this.module.noParse.push(new RegExp('^' + name + '$'));

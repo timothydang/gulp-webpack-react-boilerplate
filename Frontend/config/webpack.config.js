@@ -12,6 +12,7 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 var options = {
   cache: true,
   debug: true,
+  devtool: 'eval',
   addVendor: function (name, path) {
    this.resolve.alias[name] = path;
    this.module.noParse.push(new RegExp('^' + name + '$'));
