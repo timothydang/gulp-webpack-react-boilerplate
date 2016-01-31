@@ -49,7 +49,7 @@ gulp.task('watch-files', function() {
   gulp.watch('./Frontend/views/**/*.jade', ['jade'])
 })
 
-gulp.task('watch', ['clean'], function() {
+gulp.task('webpack-local-dev', ['clean'], function() {
   var compiler = webpack(require('./Frontend/config/webpack.config.js'))
 
   var server = new WebpackServer(compiler, {
@@ -97,4 +97,4 @@ gulp.task('build', ['set-prod-node-env', 'clean', 'webpack-production'], functio
   done()
 })
 
-gulp.task('default', ['set-dev-node-env', 'watch-files', 'watch'])
+gulp.task('default', ['set-dev-node-env', 'jade', 'webpack-local-dev', 'watch-files'])

@@ -6,6 +6,8 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.0.1",
     "babel-preset-stage-0": "^6.3.13",
+    "browser-sync": "^2.11.1",
+    "browser-sync-webpack-plugin": "^1.0.1",
     "chunk-manifest-webpack-plugin": "0.0.1",
     "clean-css": "^3.4.9",
     "css-loader": "^0.9.1",

@@ -7,6 +7,7 @@ var atImport = require('postcss-import')
 var partialImport = require('postcss-partial-import')
 var path = require('path')
 var vendor_dir = path.resolve(__dirname, '../vendors');
+var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 var options = {
   cache: true,
@@ -71,6 +72,14 @@ var options = {
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
+    }),
+    new BrowserSyncPlugin({
+      host: 'localhost',
+      port: 3000,
+      proxy: 'http://localhost:8080/'
+    },
+    {
+      reload: false
     })
   ]
 }
