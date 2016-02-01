@@ -1,4 +1,12 @@
 {
+  "scripts": {
+    "build": "gulp build",
+    "build:honda": "gulp build --brand honda",
+    "build:skoda": "gulp build --brand skoda",
+    "dev"      : "gulp",
+    "dev:honda": "gulp --brand honda",
+    "dev:skoda": "gulp --brand skoda"
+  },
   "devDependencies": {
     "babel-core": "^6.4.5",
     "babel-loader": "^6.2.1",

@@ -1,0 +1,7 @@
+@import "skoda/vars";
+@import "milligram";
+
+body {
+  background: $bg-color;
+  text-align: center;
+}

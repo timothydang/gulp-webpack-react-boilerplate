@@ -39,8 +39,8 @@ gulp.task('set-env-prod', function(done) {
   done()
 })
 
-gulp.task('clean', function(done) {
-  del(['Assets/*', './Frontend/.tmp/*'], done)
+gulp.task('clean-dev', function(done) {
+  del(['./Frontend/.tmp/*'], done)
 })
 
 gulp.task('jade', function () {
@@ -55,7 +55,7 @@ gulp.task('watch-files', function() {
   gulp.watch('./Frontend/views/**/*.jade', ['jade'])
 })
 
-gulp.task('webpack-local-dev', ['clean'], function(done) {
+gulp.task('webpack-local-dev', ['clean-dev'], function(done) {
   var compiler = webpack(require('./Frontend/config/webpack.config.js'))
 
   var server = new WebpackServer(compiler, {
@@ -104,8 +104,18 @@ gulp.task('webpack-production', function(done) {
   })
 })
 
+
+gulp.task('set-brand-to-honda', setBrand)
+gulp.task('set-brand-to-skoda', setBrand)
+
+function setBrand() {
+  var taskName = this.seq[0];
+  var brandName = taskName.replace('set-brand-to-', '')
+  util.log(util.colors.red('BRAND: ' + brandName))
+  process.env.currentBrand = currentBrand = brandName;
+}
+
 // Prod
-gulp.task('build:steps', ['set-env-prod', 'clean', 'webpack-production'])
 gulp.task('build', function() {
   if(currentBrand !== 'all') {
     util.log(util.colors.red('BRAND:', currentBrand));
@@ -113,19 +123,15 @@ gulp.task('build', function() {
     gulp.start(['build:' + currentBrand])
   } else {
     util.log(util.colors.red('BUILDING FOR ALL BRANDS'));
-    var tasks = []
-    for(var i=0; i < BRANDS.length; i++) {
-      tasks.push('build:' + BRANDS[i])
-    }
-    runSequence(tasks)
+    runSequence('build:honda', 'build:skoda')
   }
 })
-gulp.task('build:honda', ['build:steps'])
-gulp.task('build:skoda', ['build:steps'])
+gulp.task('build:honda', ['set-brand-to-honda', 'set-env-prod', 'webpack-production'])
+gulp.task('build:skoda', ['set-brand-to-skoda', 'set-env-prod', 'webpack-production'])
 
 // Dev
 gulp.task('dev:steps', function() {
-  runSequence('clean', 'set-env-dev', ['jade', 'webpack-local-dev', 'copy', 'watch-files'])
+  runSequence('clean-dev', 'set-env-dev', ['jade', 'webpack-local-dev', 'copy', 'watch-files'])
 })
 
 gulp.task('dev', function() {
