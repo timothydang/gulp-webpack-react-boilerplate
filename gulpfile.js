@@ -11,18 +11,30 @@ var WebpackServer = require('webpack-dev-server')
 var merge2 = require('merge2')
 var pngquant = require('imagemin-pngquant')
 var jade = require('gulp-jade')
-
+var runSequence = require('run-sequence')
+var argv = require('yargs').argv
 var plugins  = require("gulp-load-plugins")({
                     pattern: ['gulp-*', 'gulp.*'],
                     replaceString: /\bgulp[\-.]/
                 })
+var util = plugins.util
 
-gulp.task('set-dev-node-env', function() {
-    return process.env.NODE_ENV = 'development'
+// BRANDS DEFINITION
+var BRANDS = ['honda', 'skoda'];
+var currentBrand = argv.brand
+if(currentBrand === undefined) {
+  currentBrand = 'all'
+}
+
+
+gulp.task('set-env-dev', function() {
+  process.env.NODE_ENV = 'development'
+  return util.log(util.colors.green('Running on', process.env.NODE_ENV, ' mode'));
 })
 
-gulp.task('set-prod-node-env', function() {
-    return process.env.NODE_ENV = 'production'
+gulp.task('set-env-prod', function() {
+  process.env.NODE_ENV = 'production'
+  return util.log(util.colors.green('Running on', process.env.NODE_ENV, ' mode'));
 })
 
 gulp.task('clean', function(done) {
@@ -59,25 +71,25 @@ gulp.task('copy', function(done) {
     assetPath = './Frontend/.tmp/Assets/'
   }
 
-  var font = gulp.src('./Frontend/assets/fonts/*.{ttf,woff,woff2,eof,eot,svg}')
-              .pipe(gulp.dest(assetPath + 'fonts/'))
+  var font = gulp.src('./Frontend/assets/' + currentBrand + '/fonts/*.{ttf,woff,woff2,eof,eot,svg}')
+              .pipe(gulp.dest(assetPath + currentBrand + '/fonts/'))
 
-  var images = gulp.src('./Frontend/assets/images/**/*.{jpg,jpeg,png,gif,svg}')
+  var images = gulp.src('./Frontend/assets/' + currentBrand + '/images/**/*.{jpg,jpeg,png,gif,svg}')
                 .pipe(plugins.imagemin({
                   progressive: true,
                   svgoPlugins: [{removeViewBox: false}],
                   use: [pngquant()]
                 }))
-                .pipe(gulp.dest(assetPath + 'images/'))
+                .pipe(gulp.dest(assetPath + currentBrand + '/images/'))
 
-  var staticAssets = gulp.src('./Frontend/assets/static/**/*.*')
-                      .pipe(gulp.dest(assetPath + 'static/'))
+  var staticAssets = gulp.src('./Frontend/assets/' + currentBrand + '/static/**/*.*')
+                      .pipe(gulp.dest(assetPath + currentBrand + '/static/'))
 
-  var jsFiles = gulp.src('./Frontend/.tmp/assets/js/**/*.*')
-                  .pipe(gulp.dest(assetPath + 'js/'))
+  var jsFiles = gulp.src('./Frontend/.tmp/Assets/' + currentBrand + '/js/**/*.*')
+                  .pipe(gulp.dest(assetPath + currentBrand + '/js/'))
 
-  var cssFiles = gulp.src('./Frontend/.tmp/assets/css/**/*.*')
-                  .pipe(gulp.dest(assetPath + 'css/'))
+  var cssFiles = gulp.src('./Frontend/.tmp/Assets/' + currentBrand + '/css/**/*.*')
+                  .pipe(gulp.dest(assetPath + currentBrand + '/css/'))
 
   return merge2(font, images, staticAssets, jsFiles, cssFiles)
 })
@@ -90,8 +102,39 @@ gulp.task('webpack-production', function(done) {
   })
 })
 
-gulp.task('build', ['set-prod-node-env', 'clean', 'webpack-production'], function(done) {
-  done()
+// Prod
+gulp.task('build:steps', ['set-env-prod', 'clean', 'webpack-production'])
+gulp.task('build', function() {
+  if(currentBrand !== 'all') {
+    util.log(util.colors.red('BRAND:', currentBrand));
+    process.env.currentBrand = currentBrand
+    gulp.start(['build:' + currentBrand])
+  } else {
+    util.log(util.colors.red('BUILDING FOR ALL BRANDS'));
+    var tasks = []
+    for(var i=0; i < BRANDS.length; i++) {
+      tasks.push('build:' + BRANDS[i])
+    }
+    runSequence(tasks)
+  }
 })
+gulp.task('build:honda', ['build:steps'])
+gulp.task('build:skoda', ['build:steps'])
 
-gulp.task('default', ['set-dev-node-env', 'jade', 'webpack-local-dev', 'copy', 'watch-files'])
+// Dev
+gulp.task('dev:steps', ['set-env-dev', 'jade', 'webpack-local-dev', 'copy', 'watch-files'])
+gulp.task('dev', function() {
+  if(currentBrand && currentBrand !== 'all') {
+    util.log(util.colors.red('BRAND:', currentBrand));
+    gulp.start(['dev:' + currentBrand])
+  }
+})
+gulp.task('dev:honda', ['dev:steps'])
+gulp.task('dev:skoda', ['dev:steps'])
+
+gulp.task('set-brand-as-default', function() {
+    process.env.currentBrand = currentBrand = 'honda'
+});
+
+// Default
+gulp.task('default', ['set-brand-as-default', 'dev'])

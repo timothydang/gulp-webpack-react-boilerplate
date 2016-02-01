@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import './hello.css'
 
 ﻿class HelloReact extends React.Component {
     render() {

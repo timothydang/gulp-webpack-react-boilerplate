@@ -7,6 +7,7 @@ var atImport = require('postcss-import')
 var path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var vendor_dir = path.resolve(__dirname, '../vendors');
+var currentBrand = argv.brand || process.env.currentBrand
 
 var options = {
   debug: false,
@@ -17,7 +18,7 @@ var options = {
   },
   entry: {
     app: [
-      './Frontend/src/js/main.js'
+      './Frontend/src/js/' + currentBrand + '.js'
     ],
     vendors: ['react', 'react-dom', 'jquery', 'modernizr', 'jquery.validate', 'respond']
   },

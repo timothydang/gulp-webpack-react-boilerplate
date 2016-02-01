@@ -5,6 +5,6 @@ var React = require('react')
 var App = require('./components/App.jsx')
 var HelloReact = require('./components/Hello/HelloReact.jsx')
 
-require('../styles/main.css')
+require('../styles/honda.css')
 
 React.render(React.createElement(App, {}), document.getElementById('app'))

@@ -8,9 +8,15 @@ var partialImport = require('postcss-partial-import')
 var path = require('path')
 var vendor_dir = path.resolve(__dirname, '../vendors');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+var argv = require('yargs').argv
+
+var currentBrand = argv.brand || process.env.currentBrand
+if(!currentBrand) {
+  currentBrand = 'honda'
+}
 
 var options = {
-  cache: true,
+  cache: false,
   debug: true,
   devtool: 'eval',
   addVendor: function (name, path) {
@@ -21,15 +27,15 @@ var options = {
     app: [
       'webpack-dev-server/client?http://127.0.0.1:8080',
       'webpack/hot/only-dev-server',
-      './Frontend/src/js/main.js',
-      './Frontend/src/styles/main.css'
+      './Frontend/src/js/' + currentBrand + '.js',
+      './Frontend/src/styles/' + currentBrand + '.css'
     ],
     vendors: ['react', 'react-dom', 'jquery', 'modernizr', 'jquery.validate', 'respond']
   },
   resolve: { alias: {} },
   output: {
-    path: path.join(__dirname, '../.tmp/Assets/'),
-    publicPath: '/Assets/',
+    path: path.join(__dirname, '../.tmp/Assets/honda/'),
+    publicPath: '/Assets/honda/',
     filename: './js/[name].js'
   },
   stats: {
