@@ -11,10 +11,6 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 var argv = require('yargs').argv
 
 var currentBrand = argv.brand || process.env.currentBrand
-if(!currentBrand) {
-  currentBrand = 'honda'
-}
-
 var options = {
   cache: false,
   debug: true,
@@ -34,9 +30,9 @@ var options = {
   },
   resolve: { alias: {} },
   output: {
-    path: path.join(__dirname, '../.tmp/Assets/honda/'),
-    publicPath: '/Assets/honda/',
-    filename: './js/[name].js'
+    path: path.join(__dirname, '../.tmp/Assets/' + currentBrand + '/'),
+    publicPath: '/Assets/' + currentBrand,
+    filename: './' + currentBrand + '/js/[name].js'
   },
   stats: {
     colors: true,
@@ -74,7 +70,7 @@ var options = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendors', 'js/vendors.js'),
+    new webpack.optimize.CommonsChunkPlugin('vendors', currentBrand + '/js/vendors.js'),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')

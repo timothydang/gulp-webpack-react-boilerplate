@@ -7,8 +7,9 @@ var atImport = require('postcss-import')
 var path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var vendor_dir = path.resolve(__dirname, '../vendors');
-var currentBrand = argv.brand || process.env.currentBrand
+var argv = require('yargs').argv
 
+var currentBrand = argv.brand || process.env.currentBrand
 var options = {
   debug: false,
   devtool: 'sourcemap',
@@ -24,7 +25,7 @@ var options = {
   },
   resolve: { alias: {} },
   output: {
-    path: path.join(__dirname, '../.tmp/Assets/'),
+    path: path.join(__dirname, '../.tmp/Assets/' + currentBrand + '/'),
     filename: './js/[name].js'
   },
   module: {

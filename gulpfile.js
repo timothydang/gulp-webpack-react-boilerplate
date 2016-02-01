@@ -27,18 +27,20 @@ if(currentBrand === undefined) {
 }
 
 
-gulp.task('set-env-dev', function() {
+gulp.task('set-env-dev', function(done) {
   process.env.NODE_ENV = 'development'
-  return util.log(util.colors.green('Running on', process.env.NODE_ENV, ' mode'));
+  util.log(util.colors.green('Running on', process.env.NODE_ENV, ' mode'));
+  done()
 })
 
-gulp.task('set-env-prod', function() {
+gulp.task('set-env-prod', function(done) {
   process.env.NODE_ENV = 'production'
-  return util.log(util.colors.green('Running on', process.env.NODE_ENV, ' mode'));
+  util.log(util.colors.green('Running on', process.env.NODE_ENV, ' mode'));
+  done()
 })
 
 gulp.task('clean', function(done) {
-  del(['Assets/*', '.tmp'], done)
+  del(['Assets/*', './Frontend/.tmp/*'], done)
 })
 
 gulp.task('jade', function () {
@@ -53,7 +55,7 @@ gulp.task('watch-files', function() {
   gulp.watch('./Frontend/views/**/*.jade', ['jade'])
 })
 
-gulp.task('webpack-local-dev', ['clean'], function() {
+gulp.task('webpack-local-dev', ['clean'], function(done) {
   var compiler = webpack(require('./Frontend/config/webpack.config.js'))
 
   var server = new WebpackServer(compiler, {
@@ -71,10 +73,10 @@ gulp.task('copy', function(done) {
     assetPath = './Frontend/.tmp/Assets/'
   }
 
-  var font = gulp.src('./Frontend/assets/' + currentBrand + '/fonts/*.{ttf,woff,woff2,eof,eot,svg}')
+  var font = gulp.src('./Frontend/Assets/' + currentBrand + '/fonts/*.{ttf,woff,woff2,eof,eot,svg}')
               .pipe(gulp.dest(assetPath + currentBrand + '/fonts/'))
 
-  var images = gulp.src('./Frontend/assets/' + currentBrand + '/images/**/*.{jpg,jpeg,png,gif,svg}')
+  var images = gulp.src('./Frontend/Assets/' + currentBrand + '/images/**/*.{jpg,jpeg,png,gif,svg}')
                 .pipe(plugins.imagemin({
                   progressive: true,
                   svgoPlugins: [{removeViewBox: false}],
@@ -82,7 +84,7 @@ gulp.task('copy', function(done) {
                 }))
                 .pipe(gulp.dest(assetPath + currentBrand + '/images/'))
 
-  var staticAssets = gulp.src('./Frontend/assets/' + currentBrand + '/static/**/*.*')
+  var staticAssets = gulp.src('./Frontend/Assets/' + currentBrand + '/static/**/*.*')
                       .pipe(gulp.dest(assetPath + currentBrand + '/static/'))
 
   var jsFiles = gulp.src('./Frontend/.tmp/Assets/' + currentBrand + '/js/**/*.*')
@@ -122,7 +124,10 @@ gulp.task('build:honda', ['build:steps'])
 gulp.task('build:skoda', ['build:steps'])
 
 // Dev
-gulp.task('dev:steps', ['set-env-dev', 'jade', 'webpack-local-dev', 'copy', 'watch-files'])
+gulp.task('dev:steps', function() {
+  runSequence('clean', 'set-env-dev', ['jade', 'webpack-local-dev', 'copy', 'watch-files'])
+})
+
 gulp.task('dev', function() {
   if(currentBrand && currentBrand !== 'all') {
     util.log(util.colors.red('BRAND:', currentBrand));
